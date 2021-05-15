@@ -1,0 +1,3 @@
+skinparam {
+  dpi 300
+}

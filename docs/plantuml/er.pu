@@ -1,0 +1,42 @@
+@startuml er
+
+!include ./config/default.inc
+
+entity "users" as users {
+    + **id**: int [PK]
+    --
+    * **name**: varchar(128)
+    **password**: varchar(128)
+    **public_key**: varchar(512)
+    **secret_key**: varchar(512)
+    **token**: varchar(128)
+    **role**: varchar(32)
+    **last_login_at**: datetime
+    **created_at**: timestamp
+    **updated_at**: timestamp
+}
+
+entity "todo_lists" as todo_lists {
+    + **id** [PK]
+    --
+    **title**: varchar(128)
+    **description**: varchar(512)
+    **begin_at**: datetime
+    **finished_at**: datetime
+    **created_at**: timestamp
+    **updated_at**: timestamp
+}
+
+entity "users_todo_lists_relationships" as users_todo_lists_relationships {
+    + **id** [PK]
+    --
+    # **user_id**: int [FK]
+    # **todo_list_id**: int [FK]
+    **created_at**: timestamp
+    **updated_at**: timestamp
+}
+
+users -ri-o{ users_todo_lists_relationships: id:user_id
+todo_lists -do-|{ users_todo_lists_relationships: id:todo_list_id
+
+@enduml
