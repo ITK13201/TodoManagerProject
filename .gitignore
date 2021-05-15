@@ -1,0 +1,16 @@
+### Gradle ###
+.gradle
+build/
+
+### intellij ###
+.idea/
+*.iml
+
+### vscode ###
+.vscode/
+
+### mysql ###
+mysql/data
+
+### others ###
+tmp/
