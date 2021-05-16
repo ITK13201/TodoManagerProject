@@ -30,6 +30,8 @@ shadowJar {
 dependencies {
     implementation 'mysql:mysql-connector-java:8.0.25'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testImplementation 'junit:junit:4.11'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

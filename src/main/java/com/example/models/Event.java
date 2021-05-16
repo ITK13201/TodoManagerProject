@@ -1,8 +1,15 @@
 package com.example.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 
-public class TodoList {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Event {
     int id;
     String title;
     String description;
