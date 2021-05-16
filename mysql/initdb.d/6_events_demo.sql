@@ -1,4 +1,4 @@
-INSERT INTO todo_lists (
+INSERT INTO events (
     title,
     description,
     begin_at,
