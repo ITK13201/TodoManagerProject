@@ -2,11 +2,11 @@
 
 ## Server README
 
-[TodoManager/README.md](./server/README.md)
+[TodoManager/README.md](./TodoManager/README.md)
 
 ## Client README
 
-[TodoManagerClient/README.md](./client/README.md)
+[TodoManagerClient/README.md](./TodoManagerClient/README.md)
 
 ## Documents
 
