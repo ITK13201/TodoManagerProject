@@ -1,0 +1,13 @@
+### Java ###
+# Compiled class file
+*.class
+
+# Package Files #
+*.jar
+
+### intellij ###
+.idea/
+*.iml
+
+### others ###
+tmp/
