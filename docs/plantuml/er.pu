@@ -16,7 +16,7 @@ entity "users" as users {
     **updated_at**: timestamp
 }
 
-entity "todo_lists" as todo_lists {
+entity "events" as events {
     + **id** [PK]
     --
     **title**: varchar(128)
@@ -27,16 +27,16 @@ entity "todo_lists" as todo_lists {
     **updated_at**: timestamp
 }
 
-entity "users_todo_lists_relationships" as users_todo_lists_relationships {
+entity "users_events" as users_events {
     + **id** [PK]
     --
     # **user_id**: int [FK]
-    # **todo_list_id**: int [FK]
+    # **event_id**: int [FK]
     **created_at**: timestamp
     **updated_at**: timestamp
 }
 
-users -ri-o{ users_todo_lists_relationships: id:user_id
-todo_lists -do-|{ users_todo_lists_relationships: id:todo_list_id
+users -ri-o{ users_events: id:user_id
+events -do-|{ users_events: id:event_id
 
 @enduml
