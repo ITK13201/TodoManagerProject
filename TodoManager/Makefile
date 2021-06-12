@@ -15,4 +15,6 @@ run:
 	docker-compose exec ${IMAGE} ${args}
 gradle-clean-build:
 	docker-compose exec ${IMAGE} gradle clean build
+clean-mysql:
+	./bin/mysql/reset.sh
 restart: down start
