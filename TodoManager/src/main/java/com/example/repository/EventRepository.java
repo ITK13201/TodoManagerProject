@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class EventRepository extends Repository {
     public EventRepository() {
         ERROR_MESSAGE = new HashMap<String, String>();
-        ERROR_MESSAGE.put("NOT_NULL", "タイトルは必須項目です");
+        ERROR_MESSAGE.put("EVENT_TITLE_NOT_NULL", "タイトルは必須項目です．");
     }
 
     public void add(Event event) throws UserNameAlreadyUsedException {
@@ -34,8 +34,8 @@ public class EventRepository extends Repository {
                 db.commit();
             } catch (SQLException e) {
                 db.rollback();
-                if (e.getErrorCode() == 1062) {
-                    throw new UserNameAlreadyUsedException(ERROR_MESSAGE.get("NOT_NULL"));
+                if (e.getErrorCode() == 1048) {
+                    throw new UserNameAlreadyUsedException(ERROR_MESSAGE.get("EVENT_TITLE_NOT_NULL"));
                 } else {
                     System.out.printf("Error: %s, Error code: %d\n", e.getMessage(), e.getErrorCode());
                 }
