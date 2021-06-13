@@ -1,17 +1,20 @@
 package com.example.repository;
 
-import java.sql.*;
+import com.example.models.Event;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.example.models.User;
-
-public class UserRepository extends Repository {
-    public UserRepository() {
+public class EventRepository extends Repository {
+    public EventRepository() {
         ERROR_MESSAGE = new HashMap<String, String>();
-        ERROR_MESSAGE.put("USER_NAME_ALREADY_USED", "このユーザ名は使用済みです．");
+        ERROR_MESSAGE.put("NOT_NULL", "タイトルは必須項目です");
     }
 
-    public void add(User user) throws UserNameAlreadyUsedException {
+    public void add(Event event) throws UserNameAlreadyUsedException {
         Connection db = null;
         try {
             Class.forName(db_driver);
@@ -21,18 +24,18 @@ public class UserRepository extends Repository {
             PreparedStatement ps = null;
             try {
                 ps = db.prepareStatement(
-                    "INSERT INTO users (name, password) VALUES (?, ?)"
+                    "INSERT INTO events (title, description, begin_at) VALUES (?, ?, ?)"
                 );
-                user.hashPassword();
 
-                ps.setString(1, user.getName());
-                ps.setString(2, user.getPassword());
+                ps.setString(1, event.getTitle());
+                ps.setString(2, event.getDescription());
+                ps.setTimestamp(3, event.getBegin_at());
                 ps.executeUpdate();
                 db.commit();
             } catch (SQLException e) {
                 db.rollback();
                 if (e.getErrorCode() == 1062) {
-                    throw new UserNameAlreadyUsedException(ERROR_MESSAGE.get("USER_NAME_ALREADY_USED"));
+                    throw new UserNameAlreadyUsedException(ERROR_MESSAGE.get("NOT_NULL"));
                 } else {
                     System.out.printf("Error: %s, Error code: %d\n", e.getMessage(), e.getErrorCode());
                 }

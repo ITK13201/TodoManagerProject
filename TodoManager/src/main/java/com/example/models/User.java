@@ -23,14 +23,14 @@ public class User {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public String generateToken() throws NoSuchAlgorithmException {
+    public String hashPassword() throws NoSuchAlgorithmException {
         // SHA-256（SHA-2）
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
         byte[] sha256_result = sha256.digest(password.getBytes());
-        System.out.printf("Successfully user: %s token generated.\n", name);
+        System.out.printf("Successfully user: %s password hashed.\n", name);
 
-        token = String.format("%040x", new BigInteger(1, sha256_result));;
+        password = String.format("%040x", new BigInteger(1, sha256_result));;
 
-        return token;
+        return password;
     }
 }

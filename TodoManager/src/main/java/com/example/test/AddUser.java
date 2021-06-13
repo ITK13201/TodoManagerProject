@@ -2,7 +2,7 @@ package com.example.test;
 
 import com.example.models.User;
 import com.example.repository.UserRepository;
-import com.example.repository.DuplicatedKeyException;
+import com.example.repository.UserNameAlreadyUsedException;
 
 import java.util.Scanner;
 
@@ -12,7 +12,9 @@ public class AddUser {
 
         User user = new User();
         while (true) {
+            System.out.print("user: ");
             String user_name = sc.next();
+            System.out.print("password: ");
             String user_password = sc.next();
 
             user.setName(user_name);
@@ -22,7 +24,7 @@ public class AddUser {
             try {
                 repository.add(user);
                 break;
-            } catch (DuplicatedKeyException err) {
+            } catch (UserNameAlreadyUsedException err) {
                 System.out.println(err.getMessage());
             }
         }
