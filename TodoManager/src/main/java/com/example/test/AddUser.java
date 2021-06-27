@@ -22,7 +22,8 @@ public class AddUser {
 
             UserRepository repository = new UserRepository();
             try {
-                repository.add(user);
+                int key = repository.add(user);
+                System.out.println(key);
                 break;
             } catch (UserNameAlreadyUsedException err) {
                 System.out.println(err.getMessage());

@@ -42,12 +42,12 @@ public class EventRepository extends Repository {
                 ps1.executeUpdate();
 
                 ResultSet res = ps1.getGeneratedKeys();
-                int event_id;
+                int auto_increment_key;
                 if(res.next()){
-                    event_id = res.getInt(1);
+                    auto_increment_key = res.getInt(1);
 
                     ps2.setInt(1, relation.getUser_id());
-                    ps2.setInt(2, event_id);
+                    ps2.setInt(2, auto_increment_key);
                     ps2.executeUpdate();
 
                     res.close();
