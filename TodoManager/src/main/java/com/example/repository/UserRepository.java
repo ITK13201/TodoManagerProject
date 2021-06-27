@@ -38,7 +38,7 @@ public class UserRepository extends Repository {
                 ps.executeUpdate();
 
                 ResultSet res = ps.getGeneratedKeys();
-                if(res.next()) {
+                if (res.next()) {
                     auto_increment_key = res.getInt(1);
                     res.close();
                 }
@@ -58,18 +58,19 @@ public class UserRepository extends Repository {
             }
         } catch (UserNameAlreadyUsedException e) {
             throw e;
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Failed to find jdbc driver.");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Failed to connect mysql.");
         } finally {
             try {
-                if(db != null) {
+                if (db != null) {
                     db.close();
                 }
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+            }
         }
 
         return auto_increment_key;
@@ -116,15 +117,16 @@ public class UserRepository extends Repository {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Failed to find jdbc driver.");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Failed to connect mysql.");
         } finally {
             try {
-                if(db != null) {
+                if (db != null) {
                     db.close();
                 }
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+            }
         }
 
         return user;

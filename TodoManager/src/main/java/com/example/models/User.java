@@ -26,7 +26,7 @@ public class User {
         byte[] sha256_result = sha256.digest(password.getBytes());
         System.out.printf("Successfully user: %s password hashed.\n", name);
 
-        password = String.format("%040x", new BigInteger(1, sha256_result));;
+        password = String.format("%040x", new BigInteger(1, sha256_result));
 
         return password;
     }
