@@ -32,9 +32,6 @@ public class Database {
                     result.getInt("id"),
                     result.getString("name"),
                     result.getString("password"),
-                    result.getString("public_key"),
-                    result.getString("secret_key"),
-                    result.getString("token"),
                     result.getString("role"),
                     result.getTimestamp("created_at"),
                     result.getTimestamp("updated_at")
@@ -43,9 +40,6 @@ public class Database {
                 System.out.printf("id: %d\n", user1.getId());
                 System.out.printf("name: %s\n", user1.getName());
                 System.out.printf("password: %s\n", user1.getPassword());
-                System.out.printf("public_key: %s\n", user1.getPublic_key());
-                System.out.printf("secret_key: %s\n", user1.getSecret_key());
-                System.out.printf("token: %s\n", user1.getToken());
                 System.out.printf("role: %s\n", user1.getRole());
                 System.out.printf("created_at: %s\n", user1.getCreated_at());
                 System.out.printf("updated_at: %s\n", user1.getUpdated_at());

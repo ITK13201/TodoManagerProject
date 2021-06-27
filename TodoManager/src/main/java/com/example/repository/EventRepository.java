@@ -1,11 +1,15 @@
 package com.example.repository;
 
 import com.example.models.Event;
+import com.example.models.User;
+import com.example.models.UserEventRelation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class EventRepository extends Repository {
@@ -14,23 +18,41 @@ public class EventRepository extends Repository {
         ERROR_MESSAGE.put("EVENT_TITLE_NOT_NULL", "タイトルは必須項目です．");
     }
 
-    public void add(Event event) throws UserNameAlreadyUsedException {
+    public void add(Event event, UserEventRelation relation) throws UserNameAlreadyUsedException {
         Connection db = null;
         try {
             Class.forName(db_driver);
             db = DriverManager.getConnection(db_url, db_user, db_password);
             db.setAutoCommit(false);
 
-            PreparedStatement ps = null;
+            PreparedStatement ps1 = null;
+            PreparedStatement ps2 = null;
             try {
-                ps = db.prepareStatement(
-                    "INSERT INTO events (title, description, begin_at) VALUES (?, ?, ?)"
+                ps1 = db.prepareStatement(
+                    "INSERT INTO events (title, description, begin_at) VALUES (?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+                );
+                ps2 = db.prepareStatement(
+                    "INSERT INTO users_events (user_id, event_id) VALUES (?, ?)"
                 );
 
-                ps.setString(1, event.getTitle());
-                ps.setString(2, event.getDescription());
-                ps.setTimestamp(3, event.getBegin_at());
-                ps.executeUpdate();
+                ps1.setString(1, event.getTitle());
+                ps1.setString(2, event.getDescription());
+                ps1.setTimestamp(3, event.getBegin_at());
+                ps1.executeUpdate();
+
+                ResultSet res = ps1.getGeneratedKeys();
+                int event_id;
+                if(res.next()){
+                    event_id = res.getInt(1);
+
+                    ps2.setInt(1, relation.getUser_id());
+                    ps2.setInt(2, event_id);
+                    ps2.executeUpdate();
+
+                    res.close();
+                }
+
                 db.commit();
             } catch (SQLException e) {
                 db.rollback();
@@ -40,8 +62,11 @@ public class EventRepository extends Repository {
                     System.out.printf("Error: %s, Error code: %d\n", e.getMessage(), e.getErrorCode());
                 }
             } finally {
-                if (ps != null) {
-                    ps.close();
+                if (ps1 != null) {
+                    ps1.close();
+                }
+                if (ps2 != null) {
+                    ps2.close();
                 }
             }
         } catch (UserNameAlreadyUsedException e) {

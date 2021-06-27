@@ -16,9 +16,6 @@ public class User {
     private int id;
     private String name;
     private String password;
-    private String public_key;
-    private String secret_key;
-    private String token;
     private String role;
     private Timestamp created_at;
     private Timestamp updated_at;

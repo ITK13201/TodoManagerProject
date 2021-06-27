@@ -1,6 +1,8 @@
 package com.example.test;
 
 import com.example.models.Event;
+import com.example.models.User;
+import com.example.models.UserEventRelation;
 import com.example.repository.EventRepository;
 import com.example.repository.UserRepository;
 import com.example.repository.UserNameAlreadyUsedException;
@@ -14,6 +16,7 @@ public class AddEvent {
         Scanner sc = new Scanner(System.in);
 
         Event event = new Event();
+        UserEventRelation relation = new UserEventRelation();
         while (true) {
             System.out.print("title: ");
             String event_title = sc.next();
@@ -35,9 +38,11 @@ public class AddEvent {
             event.setDescription(event_description);
             event.setBegin_at(event_begin_at_ts);
 
+            relation.setUser_id(1);
+
             EventRepository repository = new EventRepository();
             try {
-                repository.add(event);
+                repository.add(event, relation);
                 break;
             } catch (UserNameAlreadyUsedException e) {
                 System.out.println(e.getMessage());
