@@ -20,9 +20,9 @@ public class Event {
     String description;
     Timestamp begin_at;
     Timestamp finished_at;
+    User user;
     Timestamp created_at;
     Timestamp updated_at;
-    User user;
 
     public static Timestamp ConvertStringToTimestamp(String datetime_string, String pattern) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(pattern);

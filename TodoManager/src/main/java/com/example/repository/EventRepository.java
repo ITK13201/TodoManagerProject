@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.models.Event;
 import com.example.models.User;
@@ -140,5 +142,70 @@ public class EventRepository extends Repository {
         }
 
         return event;
+    }
+
+    public List<Event> getAll(User user) {
+        UserRepository repository = new UserRepository();
+
+        try {
+            user = repository.get(user.getId());
+        }  catch (UserNotFoundException e){
+            e.printStackTrace();
+        }
+
+        List<Event> events = new ArrayList<>();
+        Connection db = null;
+        try {
+            Class.forName(db_driver);
+            db = DriverManager.getConnection(db_url, db_user, db_password);
+            db.setAutoCommit(false);
+
+            PreparedStatement ps = null;
+            ResultSet res = null;
+            try {
+                ps = db.prepareStatement(
+                    "SELECT * FROM events WHERE user_id = ?"
+                );
+                ps.setInt(1, user.getId());
+                res = ps.executeQuery();
+
+                while (res.next()) {
+                    Event event = new Event(
+                        res.getInt("id"),
+                        res.getString("title"),
+                        res.getString("description"),
+                        res.getTimestamp("begin_at"),
+                        res.getTimestamp("finished_at"),
+                        user,
+                        res.getTimestamp("created_at"),
+                        res.getTimestamp("updated_at")
+                    );
+                    events.add(event);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (res != null) {
+                    res.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find jdbc driver.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to connect mysql.");
+        } finally {
+            try {
+                if (db != null) {
+                    db.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return events;
     }
 }
