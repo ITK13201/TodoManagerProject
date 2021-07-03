@@ -1,4 +1,4 @@
-INSERT INTO users_events (
+INSERT INTO users_events_relations (
     user_id,
     event_id
 ) VALUES

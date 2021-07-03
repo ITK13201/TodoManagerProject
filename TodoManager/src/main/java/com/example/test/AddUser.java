@@ -2,7 +2,7 @@ package com.example.test;
 
 import com.example.models.User;
 import com.example.repository.UserRepository;
-import com.example.repository.UserNameAlreadyUsedException;
+import com.example.repository.exception.UserNameAlreadyUsedException;
 
 import java.util.Scanner;
 

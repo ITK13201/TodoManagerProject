@@ -9,13 +9,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
+import com.example.models.Event;
+import com.example.models.User;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEventRelation {
     private int id;
-    private int user_id;
-    private int event_id;
+    private User user;
+    private Event event;
     private Timestamp created_at;
     private Timestamp updated_at;
 }

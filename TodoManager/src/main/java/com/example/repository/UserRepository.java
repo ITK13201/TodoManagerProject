@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 import com.example.models.User;
+import com.example.repository.exception.UserNameAlreadyUsedException;
+import com.example.repository.exception.UserNotFoundException;
 
 public class UserRepository extends Repository {
     public UserRepository() {

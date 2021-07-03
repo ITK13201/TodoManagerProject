@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.models.User;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class Event {
     Timestamp finished_at;
     Timestamp created_at;
     Timestamp updated_at;
+    User user;
 
     public static Timestamp ConvertStringToTimestamp(String datetime_string, String pattern) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
