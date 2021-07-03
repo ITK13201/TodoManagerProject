@@ -6,32 +6,30 @@ import java.net.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
-            System.err.println("Usage: JabberClient Port Number");
+            System.err.println("Error: Input Port Number");
             System.exit(1);
         }
         int PORT = Integer.parseInt(args[0]);
 
-        ServerSocket s = new ServerSocket(PORT); // ソケットを作成する
+        ServerSocket s = new ServerSocket(PORT);
         System.out.println("Started: " + s);
-        try {
-            Socket socket = s.accept(); // コネクション設定要求を待つ
+        while(true) {
+            Socket socket = s.accept();
             try {
                 System.out.println("Connection accepted: " + socket);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // データ受信用バッファの設定
-                PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true); // 送信バッファ設定
+                BufferedReader socket_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter socket_out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
                 while (true) {
-                    String str = in.readLine(); // データの受信
+                    String str = socket_in.readLine(); // データの受信
                     if (str.equals("END"))
                         break;
                     System.out.println("Echoing : ");
-                    out.println(str); // データの送信
+                    socket_out.println(str); // データの送信
                 }
             } finally {
                 System.out.println("closing...");
                 socket.close();
             }
-        } finally {
-            s.close();
         }
     }
 }
