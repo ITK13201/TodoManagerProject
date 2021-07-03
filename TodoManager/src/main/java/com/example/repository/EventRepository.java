@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.example.models.Event;
-import com.example.models.User;
+import com.example.model.Event;
+import com.example.model.User;
 import com.example.repository.exception.EventNotFoundException;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 import com.example.repository.exception.UserNotFoundException;

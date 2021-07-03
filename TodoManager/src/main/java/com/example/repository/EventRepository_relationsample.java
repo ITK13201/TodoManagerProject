@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import com.example.models.UserEventRelation;
+import com.example.model.UserEventRelation;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 
 import java.sql.Connection;

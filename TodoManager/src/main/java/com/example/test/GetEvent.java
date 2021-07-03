@@ -1,11 +1,8 @@
 package com.example.test;
 
-import com.example.models.Event;
-import com.example.models.User;
+import com.example.model.Event;
 import com.example.repository.EventRepository;
 import com.example.repository.exception.EventNotFoundException;
-import com.example.repository.exception.UserNotFoundException;
-import com.example.repository.UserRepository;
 
 import java.util.Scanner;
 

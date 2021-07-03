@@ -1,10 +1,8 @@
 package com.example.test;
 
-import com.example.models.Event;
-import com.example.models.User;
-import com.example.models.UserEventRelation;
+import com.example.model.Event;
+import com.example.model.User;
 import com.example.repository.EventRepository;
-import com.example.repository.EventRepository_relationsample;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 
 import java.sql.Timestamp;

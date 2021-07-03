@@ -1,6 +1,6 @@
 package com.example.test;
 
-import com.example.models.User;
+import com.example.model.User;
 import com.example.repository.UserRepository;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 

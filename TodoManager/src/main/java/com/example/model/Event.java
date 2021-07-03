@@ -1,4 +1,4 @@
-package com.example.models;
+package com.example.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.example.models.User;
 
 @Data
 @NoArgsConstructor

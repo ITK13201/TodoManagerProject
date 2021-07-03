@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-import com.example.models.User;
+import com.example.model.User;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 import com.example.repository.exception.UserNotFoundException;
 

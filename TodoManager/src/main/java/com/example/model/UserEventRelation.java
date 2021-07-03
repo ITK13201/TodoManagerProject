@@ -1,16 +1,10 @@
-package com.example.models;
+package com.example.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-
-import com.example.models.Event;
-import com.example.models.User;
 
 @Data
 @NoArgsConstructor
