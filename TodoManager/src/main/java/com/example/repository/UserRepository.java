@@ -133,4 +133,60 @@ public class UserRepository extends Repository {
 
         return user;
     }
+
+    public User get(String name) throws UserNotFoundException {
+        User user = new User();
+        Connection db = null;
+        try {
+            Class.forName(db_driver);
+            db = DriverManager.getConnection(db_url, db_user, db_password);
+            db.setAutoCommit(false);
+
+            PreparedStatement ps = null;
+            ResultSet res = null;
+            try {
+                ps = db.prepareStatement(
+                    "SELECT * FROM users WHERE name = ?"
+                );
+                ps.setString(1, name);
+                res = ps.executeQuery();
+
+                if (res.next()) {
+                    user.setId(res.getInt("id"));
+                    user.setName(res.getString("name"));
+                    user.setPassword(res.getString("password"));
+                    user.setRole(res.getString("role"));
+                    user.setCreated_at(res.getTimestamp("created_at"));
+                    user.setUpdated_at(res.getTimestamp("updated_at"));
+                } else {
+                    throw new UserNotFoundException(ERROR_MESSAGE.get("USER_NOT_FOUND"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (res != null) {
+                    res.close();
+                }
+            }
+        } catch (UserNotFoundException e) {
+            throw e;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find jdbc driver.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to connect mysql.");
+        } finally {
+            try {
+                if (db != null) {
+                    db.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return user;
+    }
 }

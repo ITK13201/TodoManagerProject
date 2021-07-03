@@ -7,7 +7,7 @@ import com.example.repository.UserRepository;
 import java.util.Scanner;
 
 public class GetUser {
-    public static void main(String[] args) {
+    static void getById() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("user id: ");
@@ -23,5 +23,26 @@ public class GetUser {
         }
 
         sc.close();
+    }
+    static void getByName() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("user name: ");
+        String username = sc.next();
+
+        UserRepository repository = new UserRepository();
+
+        try {
+            User user = repository.get(username);
+            System.out.println(user.toString());
+        }  catch (UserNotFoundException e){
+            System.out.println("null");
+        }
+
+        sc.close();
+    }
+
+    public static void main(String[] args) {
+        getByName();
     }
 }
