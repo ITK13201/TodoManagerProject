@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class User {
     private String name;
     private String password;
     private String role;
+    private String token;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -29,5 +31,14 @@ public class User {
         password = String.format("%040x", new BigInteger(1, sha256_result));
 
         return password;
+    }
+
+    public String generateToken() {
+        UUID uuid = UUID.randomUUID();
+        String uuid_str = uuid.toString();
+
+        token = uuid_str;
+
+        return token;
     }
 }

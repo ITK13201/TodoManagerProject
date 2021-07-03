@@ -1,8 +1,10 @@
 INSERT INTO users (
     name,
-    password
+    password,
+    token
 ) VALUES
 (
     "admin",
-    "password"
+    "password",
+    "token"
 )

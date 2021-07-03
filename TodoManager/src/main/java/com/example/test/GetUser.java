@@ -16,7 +16,7 @@ public class GetUser {
         UserRepository repository = new UserRepository();
 
         try {
-            User user = repository.get(user_id);
+            User user = repository.getById(user_id);
             System.out.println(user.toString());
         }  catch (UserNotFoundException e){
             System.out.println("null");
@@ -24,6 +24,7 @@ public class GetUser {
 
         sc.close();
     }
+
     static void getByName() {
         Scanner sc = new Scanner(System.in);
 
@@ -33,7 +34,7 @@ public class GetUser {
         UserRepository repository = new UserRepository();
 
         try {
-            User user = repository.get(username);
+            User user = repository.getByName(username);
             System.out.println(user.toString());
         }  catch (UserNotFoundException e){
             System.out.println("null");
@@ -42,7 +43,32 @@ public class GetUser {
         sc.close();
     }
 
+    static void getByToken() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("user id: ");
+        int user_id = sc.nextInt();
+
+        UserRepository repository = new UserRepository();
+
+        User user = null;
+        try {
+            user = repository.getById(user_id);
+        }  catch (UserNotFoundException e){
+            System.out.println("null");
+        }
+
+        sc.close();
+
+        try {
+            user = repository.getByToken(user.getToken());
+            System.out.println(user.toString());
+        }  catch (UserNotFoundException e){
+            System.out.println("null");
+        }
+    }
+
     public static void main(String[] args) {
-        getByName();
+        getByToken();
     }
 }

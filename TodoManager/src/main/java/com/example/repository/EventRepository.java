@@ -135,7 +135,7 @@ public class EventRepository extends Repository {
 
         UserRepository repository = new UserRepository();
         try {
-            User user = repository.get(user_id);
+            User user = repository.getById(user_id);
             event.setUser(user);
         }  catch (UserNotFoundException e){
             e.printStackTrace();
@@ -148,7 +148,7 @@ public class EventRepository extends Repository {
         UserRepository repository = new UserRepository();
 
         try {
-            user = repository.get(user.getId());
+            user = repository.getById(user.getId());
         }  catch (UserNotFoundException e){
             e.printStackTrace();
         }

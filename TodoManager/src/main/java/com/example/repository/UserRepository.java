@@ -30,13 +30,15 @@ public class UserRepository extends Repository {
             PreparedStatement ps = null;
             try {
                 ps = db.prepareStatement(
-                    "INSERT INTO users (name, password) VALUES (?, ?)",
+                    "INSERT INTO users (name, password, token) VALUES (?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
                 );
                 user.hashPassword();
+                user.generateToken();
 
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getPassword());
+                ps.setString(3, user.getToken());
                 ps.executeUpdate();
 
                 ResultSet res = ps.getGeneratedKeys();
@@ -78,7 +80,7 @@ public class UserRepository extends Repository {
         return auto_increment_key;
     }
 
-    public User get(int id) throws UserNotFoundException {
+    public User getById(int id) throws UserNotFoundException {
         User user = new User();
         Connection db = null;
         try {
@@ -100,6 +102,7 @@ public class UserRepository extends Repository {
                     user.setName(res.getString("name"));
                     user.setPassword(res.getString("password"));
                     user.setRole(res.getString("role"));
+                    user.setToken(res.getString("token"));
                     user.setCreated_at(res.getTimestamp("created_at"));
                     user.setUpdated_at(res.getTimestamp("updated_at"));
                 } else {
@@ -134,7 +137,7 @@ public class UserRepository extends Repository {
         return user;
     }
 
-    public User get(String name) throws UserNotFoundException {
+    public User getByName(String name) throws UserNotFoundException {
         User user = new User();
         Connection db = null;
         try {
@@ -156,6 +159,64 @@ public class UserRepository extends Repository {
                     user.setName(res.getString("name"));
                     user.setPassword(res.getString("password"));
                     user.setRole(res.getString("role"));
+                    user.setToken(res.getString("token"));
+                    user.setCreated_at(res.getTimestamp("created_at"));
+                    user.setUpdated_at(res.getTimestamp("updated_at"));
+                } else {
+                    throw new UserNotFoundException(ERROR_MESSAGE.get("USER_NOT_FOUND"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (res != null) {
+                    res.close();
+                }
+            }
+        } catch (UserNotFoundException e) {
+            throw e;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find jdbc driver.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to connect mysql.");
+        } finally {
+            try {
+                if (db != null) {
+                    db.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return user;
+    }
+
+    public User getByToken(String token) throws UserNotFoundException {
+        User user = new User();
+        Connection db = null;
+        try {
+            Class.forName(db_driver);
+            db = DriverManager.getConnection(db_url, db_user, db_password);
+            db.setAutoCommit(false);
+
+            PreparedStatement ps = null;
+            ResultSet res = null;
+            try {
+                ps = db.prepareStatement(
+                    "SELECT * FROM users WHERE token = ?"
+                );
+                ps.setString(1, token);
+                res = ps.executeQuery();
+
+                if (res.next()) {
+                    user.setId(res.getInt("id"));
+                    user.setName(res.getString("name"));
+                    user.setPassword(res.getString("password"));
+                    user.setRole(res.getString("role"));
+                    user.setToken(res.getString("token"));
                     user.setCreated_at(res.getTimestamp("created_at"));
                     user.setUpdated_at(res.getTimestamp("updated_at"));
                 } else {
