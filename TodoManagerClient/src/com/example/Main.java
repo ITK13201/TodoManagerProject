@@ -44,6 +44,7 @@ public class Main {
                         TOKEN = process.logout();
                         break;
                     case "create":
+                        process.create(sc, TOKEN);
                         break;
                     case "change":
                         break;

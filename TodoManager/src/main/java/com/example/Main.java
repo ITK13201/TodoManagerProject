@@ -40,7 +40,7 @@ public class Main {
                                 process.signup(receive_data);
                                 break;
                             case "login":
-                                process.login();
+                                process.login(receive_data);
                                 break;
                             case "create":
                                 break;

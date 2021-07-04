@@ -3,6 +3,7 @@ package com.example.process;
 import com.example.command.Command;
 import com.example.repository.UserRepository;
 import com.example.repository.exception.UserNameAlreadyUsedException;
+import com.example.repository.exception.UserNotFoundException;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ public class Process {
     private HashMap<String, String> acceptedMessage = new HashMap<String, String>() {
         {
             put("signup", "Successfully signed up!");
+            put("login", "Successfully logged in!");
         }
     };
 
@@ -58,7 +60,32 @@ public class Process {
         socket_out.println(send_json);
     }
 
-    public void login() {
+    public void login(ExchangeData receive_data) {
+        boolean accepted = false;
+        String errMessage = null;
+        User user = receive_data.getUser();
+
+        UserRepository repository = new UserRepository();
+        try {
+            repository.getByToken(user.getToken());
+            accepted = true;
+        } catch (UserNotFoundException e) {
+            errMessage = e.getMessage();
+        }
+
+        Gson gson = new Gson();
+        ExchangeData send_data = new ExchangeData();
+        send_data.setCommand("login");
+        if (accepted) {
+            send_data.setStatus(200);
+            send_data.setMessage(acceptedMessage.get("login"));
+        } else {
+            send_data.setStatus(400);
+            send_data.setMessage(errMessage);
+        }
+
+        String send_json = gson.toJson(send_data);
+        socket_out.println(send_json);
     }
 
     public void invalidSyntax() {

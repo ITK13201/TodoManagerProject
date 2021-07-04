@@ -91,7 +91,6 @@ public class Process {
 
             try {
                 String receive_json = socket_in.readLine();
-                System.out.println("receive: " + receive_json);
                 receive_data = gson.fromJson(receive_json, ExchangeData.class);
                 String statusMessage = receive_data.getStatusMessage();
                 if (statusMessage == null) {
@@ -127,16 +126,15 @@ public class Process {
 
         try {
             String receive_json = socket_in.readLine();
-            System.out.println("receive: " + receive_json);
             receive_data = gson.fromJson(receive_json, ExchangeData.class);
-            String message = receive_data.getStatusMessage();
-            if (message == null) {
+            String statusMessage = receive_data.getStatusMessage();
+            if (statusMessage == null) {
                 System.out.println("Sorry. Failed to log in.");
                 token = null;
-            } else if (message.equals("OK")) {
-                System.out.println(message);
+            } else if (statusMessage.equals("OK")) {
+                System.out.println(receive_data.getMessage());
             } else {
-                System.out.println(message);
+                System.out.println(receive_data.getMessage());
                 token = null;
             }
         } catch (IOException e) {
@@ -147,6 +145,7 @@ public class Process {
     }
 
     public String logout() {
+        System.out.println("Logged out.");
         return null;
     }
 }
