@@ -4,7 +4,7 @@ CREATE TABLE events (
     id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(128) NOT NULL,
     description VARCHAR(512) NOT NULL,
-    begin_at DATETIME,
+    deadline DATETIME,
     finished_at DATETIME,
     user_id INTEGER NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

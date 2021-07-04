@@ -1,7 +1,7 @@
 INSERT INTO events (
     title,
     description,
-    begin_at,
+    deadline,
     finished_at,
     user_id
 ) VALUES
