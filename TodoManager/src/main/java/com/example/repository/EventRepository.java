@@ -34,13 +34,13 @@ public class EventRepository extends Repository {
             PreparedStatement ps = null;
             try {
                 ps = db.prepareStatement(
-                    "INSERT INTO events (title, description, begin_at, user_id) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO events (title, description, deadline, user_id) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
                 );
 
                 ps.setString(1, event.getTitle());
                 ps.setString(2, event.getDescription());
-                ps.setTimestamp(3, event.getBegin_at());
+                ps.setTimestamp(3, event.getDeadline());
                 ps.setInt(4, event.getUser().getId());
                 ps.executeUpdate();
 
@@ -99,7 +99,7 @@ public class EventRepository extends Repository {
                     event.setId(res.getInt("id"));
                     event.setTitle(res.getString("title"));
                     event.setDescription(res.getString("description"));
-                    event.setBegin_at(res.getTimestamp("begin_at"));
+                    event.setDeadline(res.getTimestamp("deadline"));
                     event.setFinished_at(res.getTimestamp("finished_at"));
                     user_id = res.getInt("user_id");
                     event.setCreated_at(res.getTimestamp("created_at"));
@@ -174,7 +174,7 @@ public class EventRepository extends Repository {
                         res.getInt("id"),
                         res.getString("title"),
                         res.getString("description"),
-                        res.getTimestamp("begin_at"),
+                        res.getTimestamp("deadline"),
                         res.getTimestamp("finished_at"),
                         user,
                         res.getTimestamp("created_at"),

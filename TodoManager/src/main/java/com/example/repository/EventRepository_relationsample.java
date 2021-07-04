@@ -28,7 +28,7 @@ public class EventRepository_relationsample extends Repository {
             PreparedStatement ps2 = null;
             try {
                 ps1 = db.prepareStatement(
-                    "INSERT INTO events (title, description, begin_at) VALUES (?, ?, ?)",
+                    "INSERT INTO events (title, description, deadline) VALUES (?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
                 );
                 ps2 = db.prepareStatement(
@@ -37,7 +37,7 @@ public class EventRepository_relationsample extends Repository {
 
                 ps1.setString(1, relation.getEvent().getTitle());
                 ps1.setString(2, relation.getEvent().getDescription());
-                ps1.setTimestamp(3, relation.getEvent().getBegin_at());
+                ps1.setTimestamp(3, relation.getEvent().getDeadline());
                 ps1.executeUpdate();
 
                 ResultSet res = ps1.getGeneratedKeys();

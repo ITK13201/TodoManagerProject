@@ -21,12 +21,12 @@ public class AddEvent_relationsample {
             String event_title = sc.next();
             System.out.print("description: ");
             String event_description = sc.next();
-            System.out.print("begin_at(yyyy-MM-dd:HH:mm): ");
-            String event_begin_at = sc.next();
+            System.out.print("deadline(yyyy-MM-dd:HH:mm): ");
+            String event_deadline = sc.next();
 
-            Timestamp event_begin_at_ts = null;
+            Timestamp event_deadline_ts = null;
             try {
-                event_begin_at_ts = Event.ConvertStringToTimestamp(event_begin_at, "yyyy-MM-dd:HH:mm");
+                event_deadline_ts = Event.ConvertStringToTimestamp(event_deadline, "yyyy-MM-dd:HH:mm");
             } catch (ParseException e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
@@ -35,7 +35,7 @@ public class AddEvent_relationsample {
 
             event.setTitle(event_title);
             event.setDescription(event_description);
-            event.setBegin_at(event_begin_at_ts);
+            event.setDeadline(event_deadline_ts);
 
             User user = new User();
             user.setId(1);

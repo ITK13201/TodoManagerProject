@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import com.example.model.Event;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -147,5 +148,46 @@ public class Process {
     public String logout() {
         System.out.println("Logged out.");
         return null;
+    }
+
+    public void create(Scanner sc, final String TOKEN) {
+        Gson gson = new Gson();
+        ExchangeData send_data = new ExchangeData();
+        ExchangeData receive_data = null;
+        send_data.setCommand("create");
+
+        while(true) {
+            Event event = new Event();
+            System.out.print("Input event title: ");
+            String title = sc.nextLine();
+            event.setTitle(title);
+            System.out.print("Input description: ");
+            String description = sc.nextLine();
+            event.setDescription(description);
+            System.out.print("Input begin date: ");
+            String description = sc.nextLine();
+            event.setDescription(description);
+            String send_json = gson.toJson(send_data);
+            socket_out.println(send_json);
+
+            try {
+                String receive_json = socket_in.readLine();
+                receive_data = gson.fromJson(receive_json, ExchangeData.class);
+                String statusMessage = receive_data.getStatusMessage();
+                if (statusMessage == null) {
+                    System.out.println("Sorry. Failed to sign up. Retype user name.");
+                } else if (statusMessage.equals("OK")) {
+                    System.out.println(receive_data.getMessage());
+                    break;
+                } else {
+                    System.out.println(receive_data.getMessage());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        token = receive_data.getContents().get(0);
+        Config.writeTextFile(token, Config.TOKEN_PATH);
+        return token;
     }
 }
