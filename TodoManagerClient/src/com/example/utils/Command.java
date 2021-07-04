@@ -7,5 +7,6 @@ public enum Command {
     create,
     change,
     delete,
-    show
+    show,
+    exit
 }

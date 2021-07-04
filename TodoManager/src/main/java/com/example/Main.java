@@ -30,6 +30,8 @@ public class Main {
                     System.out.println("Echoing : ");
                     socket_out.println(str);
                 }
+            } catch (Exception e) {
+                System.out.println("Socket Error!");
             } finally {
                 System.out.println("closing...");
                 socket.close();
