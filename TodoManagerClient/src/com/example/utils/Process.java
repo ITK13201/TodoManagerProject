@@ -214,4 +214,32 @@ public class Process {
             e.printStackTrace();
         }
     }
+
+    public void show(final String TOKEN) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+
+        ExchangeData send_data = new ExchangeData();
+        ExchangeData receive_data = null;
+        send_data.setCommand("show");
+        send_data.setHeader(TOKEN);
+
+        String send_json = gson.toJson(send_data);
+        socket_out.println(send_json);
+
+        try {
+            String receive_json = socket_in.readLine();
+            receive_data = gson.fromJson(receive_json, ExchangeData.class);
+            String statusMessage = receive_data.getStatusMessage();
+            if (statusMessage == null) {
+                System.out.println("Sorry. Failed to show events.");
+            } else if (statusMessage.equals("OK")) {
+                System.out.println(receive_data.getMessage());
+                receive_data.printEventsTable();
+            } else {
+                System.out.println(receive_data.getMessage());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

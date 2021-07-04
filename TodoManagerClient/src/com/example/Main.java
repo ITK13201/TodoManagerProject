@@ -51,6 +51,7 @@ public class Main {
                     case "delete":
                         break;
                     case "show":
+                        process.show(TOKEN);
                         break;
                     default:
                         break;

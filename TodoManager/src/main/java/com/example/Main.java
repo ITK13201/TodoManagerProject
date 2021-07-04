@@ -50,6 +50,7 @@ public class Main {
                             case "delete":
                                 break;
                             case "show":
+                                process.show(receive_data);
                                 break;
                             default:
                                 break;

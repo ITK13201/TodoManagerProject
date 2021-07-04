@@ -8,6 +8,7 @@ import com.example.repository.UserRepository;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 import com.example.repository.exception.UserNotFoundException;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class Process {
             put("signup", "Successfully signed up!");
             put("login", "Successfully logged in!");
             put("create", "Successfully create event!");
+            put("show", "View all your events.");
         }
     };
 
@@ -115,6 +117,38 @@ public class Process {
         if (accepted) {
             send_data.setStatus(200);
             send_data.setMessage(acceptedMessage.get("create"));
+        } else {
+            send_data.setStatus(400);
+            send_data.setMessage(errMessage);
+        }
+
+        String send_json = gson.toJson(send_data);
+        socket_out.println(send_json);
+    }
+
+    public void show(ExchangeData receive_data) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+        boolean accepted = false;
+        String errMessage = null;
+        User user = null;
+
+        EventRepository eventRepository = new EventRepository();
+        UserRepository userRepository = new UserRepository();
+        try {
+            user = userRepository.getByToken(receive_data.getHeader());
+            accepted = true;
+        } catch (UserNotFoundException e) {
+            errMessage = e.getMessage();
+        }
+
+        List<Event> events = eventRepository.getAll(user);
+
+        ExchangeData send_data = new ExchangeData();
+        send_data.setCommand("show");
+        if (accepted) {
+            send_data.setEvents(events);
+            send_data.setStatus(200);
+            send_data.setMessage(acceptedMessage.get("show"));
         } else {
             send_data.setStatus(400);
             send_data.setMessage(errMessage);
