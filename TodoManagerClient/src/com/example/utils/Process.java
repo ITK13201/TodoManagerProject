@@ -78,10 +78,13 @@ public class Process {
         send_data.setCommand("signup");
 
         while(true) {
+            User user = new User();
             System.out.print("Input username: ");
             String username = sc.next();
-            User user = new User();
             user.setName(username);
+            System.out.print("Input password: ");
+            String password = sc.next();
+            user.setPassword(password);
             send_data.setUser(user);
             String send_json = gson.toJson(send_data);
             socket_out.println(send_json);
@@ -90,14 +93,14 @@ public class Process {
                 String receive_json = socket_in.readLine();
                 System.out.println("receive: " + receive_json);
                 receive_data = gson.fromJson(receive_json, ExchangeData.class);
-                String message = receive_data.getStatusMessage();
-                if (message == null) {
+                String statusMessage = receive_data.getStatusMessage();
+                if (statusMessage == null) {
                     System.out.println("Sorry. Failed to sign up. Retype user name.");
-                } else if (message.equals("OK")) {
-                    System.out.println(message);
+                } else if (statusMessage.equals("OK")) {
+                    System.out.println(receive_data.getMessage());
                     break;
                 } else {
-                    System.out.println(message);
+                    System.out.println(receive_data.getMessage());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

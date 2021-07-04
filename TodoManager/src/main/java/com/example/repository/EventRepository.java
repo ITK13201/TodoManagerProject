@@ -19,8 +19,8 @@ import com.example.repository.exception.UserNotFoundException;
 public class EventRepository extends Repository {
     public EventRepository() {
         ERROR_MESSAGE = new HashMap<String, String>();
-        ERROR_MESSAGE.put("EVENT_TITLE_NOT_NULL", "タイトルは必須項目です．");
-        ERROR_MESSAGE.put("EVENT_NOT_FOUND", "イベントが見つかりません．");
+        ERROR_MESSAGE.put("EVENT_TITLE_NOT_NULL", "The title is a required field.");
+        ERROR_MESSAGE.put("EVENT_NOT_FOUND", "Event not found.");
     }
 
     public int add(Event event) throws UserNameAlreadyUsedException {

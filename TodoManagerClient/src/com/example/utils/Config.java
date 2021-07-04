@@ -27,7 +27,15 @@ public class Config {
         return text;
     }
 
-    public static void writeTextFile(final String path, String text) {
+    public static void writeTextFile(String text, final String path) {
+        if (!existsTextFile(path)) {
+            try {
+                Files.createFile(Paths.get(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         List<String> lines = Stream.of(text).collect(Collectors.toList());;
         try {
             Files.write(Paths.get(path), lines, StandardCharsets.UTF_8, StandardOpenOption.WRITE);

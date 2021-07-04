@@ -1,6 +1,11 @@
 package com.example;
 
+import com.example.process.Dataformat;
+import com.example.process.ExchangeData;
+import com.google.gson.JsonSyntaxException;
+
 import com.example.command.Command;
+import com.example.process.Process;
 
 import java.io.*;
 import java.net.*;
@@ -22,13 +27,37 @@ public class Main {
                 BufferedReader socket_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter socket_out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-                Command command = new Command(socket_in, socket_out);
+                Process process = new Process(socket_in, socket_out);
                 while (true) {
-                    String str = socket_in.readLine();
-                    if (str.equals("END"))
-                        break;
-                    System.out.println("Echoing : ");
-                    socket_out.println(str);
+                    String receive_json = socket_in.readLine();
+                    if (receive_json.equals("END")) break;
+                    try {
+                        ExchangeData receive_data = Dataformat.format(receive_json);
+                        Command cmd = Command.valueOf(receive_data.getCommand());
+                        if (cmd.name().equals("exit")) break;
+                        switch (cmd.name()) {
+                            case "signup":
+                                process.signup(receive_data);
+                                break;
+                            case "login":
+                                process.login();
+                                break;
+                            case "create":
+                                break;
+                            case "change":
+                                break;
+                            case "delete":
+                                break;
+                            case "show":
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (JsonSyntaxException e) {
+                        process.invalidSyntax();
+                    }
+                    System.out.print("receive : ");
+                    System.out.println(receive_json);
                 }
             } catch (Exception e) {
                 System.out.println("Socket Error!");

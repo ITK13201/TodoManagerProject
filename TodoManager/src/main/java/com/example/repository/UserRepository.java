@@ -15,8 +15,8 @@ import com.example.repository.exception.UserNotFoundException;
 public class UserRepository extends Repository {
     public UserRepository() {
         ERROR_MESSAGE = new HashMap<String, String>();
-        ERROR_MESSAGE.put("USER_NAME_ALREADY_USED", "このユーザ名は使用済みです．");
-        ERROR_MESSAGE.put("USER_NOT_FOUND", "ユーザが見つかりません．");
+        ERROR_MESSAGE.put("USER_NAME_ALREADY_USED", "This user name is already in use.");
+        ERROR_MESSAGE.put("USER_NOT_FOUND", "User not found.");
     }
 
     public int add(User user) throws UserNameAlreadyUsedException {
