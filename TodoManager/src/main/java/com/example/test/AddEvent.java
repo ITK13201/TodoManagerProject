@@ -40,12 +40,8 @@ public class AddEvent {
             event.setUser(user);
 
             EventRepository repository = new EventRepository();
-            try {
-                repository.add(event);
-                break;
-            } catch (UserNameAlreadyUsedException e) {
-                System.out.println(e.getMessage());
-            }
+            repository.add(event);
+            break;
         }
         sc.close();
     }

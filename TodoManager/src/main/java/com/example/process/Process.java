@@ -1,6 +1,9 @@
 package com.example.process;
 
 import com.example.command.Command;
+import com.example.model.User;
+import com.example.model.Event;
+import com.example.repository.EventRepository;
 import com.example.repository.UserRepository;
 import com.example.repository.exception.UserNameAlreadyUsedException;
 import com.example.repository.exception.UserNotFoundException;
@@ -11,13 +14,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import com.example.model.User;
-
 public class Process {
     private HashMap<String, String> acceptedMessage = new HashMap<String, String>() {
         {
             put("signup", "Successfully signed up!");
             put("login", "Successfully logged in!");
+            put("create", "Successfully create event!");
         }
     };
 
@@ -88,11 +90,45 @@ public class Process {
         socket_out.println(send_json);
     }
 
+    public void create(ExchangeData receive_data) {
+        boolean accepted = false;
+        String errMessage = null;
+        Event event = receive_data.getEvent();
+
+        EventRepository eventRepository = new EventRepository();
+        UserRepository userRepository = new UserRepository();
+        try {
+            User user = userRepository.getByToken(receive_data.getHeader());
+            event.setUser(user);
+        } catch (UserNotFoundException e) {
+            errMessage = e.getMessage();
+        }
+
+        int res = eventRepository.add(event);
+        if (res != 0) {
+            accepted = true;
+        }
+
+        Gson gson = new Gson();
+        ExchangeData send_data = new ExchangeData();
+        send_data.setCommand("create");
+        if (accepted) {
+            send_data.setStatus(200);
+            send_data.setMessage(acceptedMessage.get("create"));
+        } else {
+            send_data.setStatus(400);
+            send_data.setMessage(errMessage);
+        }
+
+        String send_json = gson.toJson(send_data);
+        socket_out.println(send_json);
+    }
+
     public void invalidSyntax() {
         Gson gson = new Gson();
         ExchangeData send_data = new ExchangeData();
         send_data.setStatus(400);
-        send_data.setMessage("Error: Invalid Syntax!");
+        send_data.setMessage("Error: Invalid Json Syntax!");
 
         String send_json = gson.toJson(send_data);
         socket_out.println(send_json);

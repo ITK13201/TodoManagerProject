@@ -16,7 +16,7 @@ public class Event {
     int id;
     String title;
     String description;
-    Timestamp begin_at;
+    Timestamp deadline;
     Timestamp finished_at;
     User user;
     Timestamp created_at;

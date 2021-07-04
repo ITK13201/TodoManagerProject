@@ -43,6 +43,7 @@ public class Main {
                                 process.login(receive_data);
                                 break;
                             case "create":
+                                process.create(receive_data);
                                 break;
                             case "change":
                                 break;
@@ -54,6 +55,7 @@ public class Main {
                                 break;
                         }
                     } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
                         process.invalidSyntax();
                     }
                     System.out.print("receive : ");

@@ -23,7 +23,7 @@ public class EventRepository extends Repository {
         ERROR_MESSAGE.put("EVENT_NOT_FOUND", "Event not found.");
     }
 
-    public int add(Event event) throws UserNameAlreadyUsedException {
+    public int add(Event event) {
         int auto_increment_key = -1;
         Connection db = null;
         try {
