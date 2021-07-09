@@ -1,6 +1,5 @@
-@startuml er
-
-!include ./config/default.inc
+```plantuml
+@startuml
 
 entity "users" as users {
     + **id**: int [PK]
@@ -39,3 +38,4 @@ users -ri-o{ users_events: id:user_id
 events -do-|{ users_events: id:event_id
 
 @enduml
+```
