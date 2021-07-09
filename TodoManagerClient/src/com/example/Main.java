@@ -47,8 +47,10 @@ public class Main {
                         process.create(sc, TOKEN);
                         break;
                     case "change":
+                        process.change(sc, TOKEN);
                         break;
                     case "delete":
+                        process.delete(sc, TOKEN);
                         break;
                     case "show":
                         process.show(TOKEN);

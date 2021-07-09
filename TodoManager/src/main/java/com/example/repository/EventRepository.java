@@ -208,4 +208,91 @@ public class EventRepository extends Repository {
 
         return events;
     }
+
+    public void update(Event event) {
+        Connection db = null;
+        try {
+            Class.forName(db_driver);
+            db = DriverManager.getConnection(db_url, db_user, db_password);
+            db.setAutoCommit(false);
+    
+            PreparedStatement ps = null;
+            try {
+                ps = db.prepareStatement(
+                    "UPDATE events SET title = ?, description = ?, deadline = ?, finished_at = ? WHERE id = ?"
+                );
+    
+                ps.setString(1, event.getTitle());
+                ps.setString(2, event.getDescription());
+                ps.setTimestamp(3, event.getDeadline());
+                ps.setTimestamp(4, event.getFinished_at());
+                ps.setInt(5, event.getUser().getId());
+                ps.executeUpdate();
+    
+                db.commit();
+            } catch (SQLException e) {
+                db.rollback();
+                System.out.printf("Error: %s, Error code: %d\n", e.getMessage(), e.getErrorCode());
+            } finally {
+                if (ps != null) {
+                    ps.close();
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find jdbc driver.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to connect mysql.");
+        } finally {
+            try {
+                if (db != null) {
+                    db.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
+    public void delete(int id) {
+        Connection db = null;
+        try {
+            Class.forName(db_driver);
+            db = DriverManager.getConnection(db_url, db_user, db_password);
+            db.setAutoCommit(false);
+    
+            PreparedStatement ps = null;
+            try {
+                ps = db.prepareStatement(
+                    "DELETE FROM events WHERE id = ?"
+                );
+    
+                ps.setInt(1, id);
+                ps.executeUpdate();
+    
+                db.commit();
+            } catch (SQLException e) {
+                db.rollback();
+                System.out.printf("Error: %s, Error code: %d\n", e.getMessage(), e.getErrorCode());
+            } finally {
+                if (ps != null) {
+                    ps.close();
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find jdbc driver.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to connect mysql.");
+        } finally {
+            try {
+                if (db != null) {
+                    db.close();
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
+    
 }

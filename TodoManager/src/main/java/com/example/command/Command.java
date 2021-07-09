@@ -8,5 +8,6 @@ public enum Command {
     change,
     delete,
     show,
-    exit
+    exit,
+    preChange
 }

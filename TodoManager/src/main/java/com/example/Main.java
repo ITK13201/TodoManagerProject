@@ -45,9 +45,13 @@ public class Main {
                             case "create":
                                 process.create(receive_data);
                                 break;
+                            case "preChange":
+                                process.preChange(receive_data);
                             case "change":
+                                process.change(receive_data);
                                 break;
                             case "delete":
+                                process.delete(receive_data);
                                 break;
                             case "show":
                                 process.show(receive_data);
