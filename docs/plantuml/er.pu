@@ -25,7 +25,7 @@ entity "events" as events {
     **updated_at**: timestamp
 }
 
-entity "users_events" as users_events {
+entity "users_events_relations" as users_events_relations {
     + **id**: int [PK]
     --
     # **user_id**: int [FK]
@@ -35,7 +35,7 @@ entity "users_events" as users_events {
 }
 
 users -|{ events: id:user_id
-users -ri-o{ users_events: id:user_id
-events -do-|{ users_events: id:event_id
+users -ri-o{ users_events_relations: id:user_id
+events -do-|{ users_events_relations: id:event_id
 
 @enduml
