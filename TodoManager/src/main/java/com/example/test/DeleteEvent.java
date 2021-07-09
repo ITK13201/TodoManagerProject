@@ -13,9 +13,12 @@ public class DeleteEvent {
         System.out.print("event id: ");
         int event_id = sc.nextInt();
 
+        Event event = new Event();
+        event.setId(event_id);
+
         EventRepository repository = new EventRepository();
 
-        repository.delete(event_id);
+        repository.delete(event);
 
         sc.close();
     }

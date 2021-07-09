@@ -77,8 +77,7 @@ public class EventRepository extends Repository {
         return auto_increment_key;
     }
 
-    public Event get(int id) throws EventNotFoundException {
-        Event event = new Event();
+    public Event get(Event event) throws EventNotFoundException {
         int user_id = -1;
         Connection db = null;
         try {
@@ -90,9 +89,10 @@ public class EventRepository extends Repository {
             ResultSet res = null;
             try {
                 ps = db.prepareStatement(
-                    "SELECT * FROM events WHERE id = ?"
+                    "SELECT * FROM events WHERE id = ? AND user_id = ?"
                 );
-                ps.setInt(1, id);
+                ps.setInt(1, event.getId());
+                ps.setInt(2, event.getUser().getId());
                 res = ps.executeQuery();
 
                 if (res.next()) {
@@ -219,14 +219,15 @@ public class EventRepository extends Repository {
             PreparedStatement ps = null;
             try {
                 ps = db.prepareStatement(
-                    "UPDATE events SET title = ?, description = ?, deadline = ?, finished_at = ? WHERE id = ?"
+                    "UPDATE events SET title = ?, description = ?, deadline = ?, finished_at = ? WHERE id = ? AND user_id = ?"
                 );
     
                 ps.setString(1, event.getTitle());
                 ps.setString(2, event.getDescription());
                 ps.setTimestamp(3, event.getDeadline());
                 ps.setTimestamp(4, event.getFinished_at());
-                ps.setInt(5, event.getUser().getId());
+                ps.setInt(5, event.getId());
+                ps.setInt(6, event.getUser().getId());
                 ps.executeUpdate();
     
                 db.commit();
@@ -254,7 +255,7 @@ public class EventRepository extends Repository {
         }
     }
     
-    public void delete(int id) {
+    public void delete(Event event) {
         Connection db = null;
         try {
             Class.forName(db_driver);
@@ -264,10 +265,11 @@ public class EventRepository extends Repository {
             PreparedStatement ps = null;
             try {
                 ps = db.prepareStatement(
-                    "DELETE FROM events WHERE id = ?"
+                    "DELETE FROM events WHERE id = ? AND user_id = ?"
                 );
     
-                ps.setInt(1, id);
+                ps.setInt(1, event.getId());
+                ps.setInt(2, event.getUser().getId());
                 ps.executeUpdate();
     
                 db.commit();

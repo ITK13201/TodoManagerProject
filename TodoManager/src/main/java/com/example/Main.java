@@ -47,6 +47,7 @@ public class Main {
                                 break;
                             case "preChange":
                                 process.preChange(receive_data);
+                                break;
                             case "change":
                                 process.change(receive_data);
                                 break;

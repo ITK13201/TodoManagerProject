@@ -172,18 +172,20 @@ public class Process {
         String errMessage = null;
         User user = null;
 
+        Event event = receive_data.getEvent();
+
         EventRepository eventRepository = new EventRepository();
         UserRepository userRepository = new UserRepository();
         try {
             user = userRepository.getByToken(receive_data.getHeader());
+            event.setUser(user);
         } catch (UserNotFoundException e) {
             e.printStackTrace();
             errMessage = e.getMessage();
         }
 
-        Event event = null;
         try {
-            event = eventRepository.get(receive_data.getEvent().getId());
+            event = eventRepository.get(receive_data.getEvent());
             accepted = true;
         } catch (EventNotFoundException e) {
             e.printStackTrace();
@@ -202,7 +204,6 @@ public class Process {
         }
 
         String send_json = gson.toJson(send_data);
-        System.out.println(send_json);
         socket_out.println(send_json);
     }
 
@@ -255,7 +256,7 @@ public class Process {
             errMessage = e.getMessage();
         }
 
-        eventRepository.delete(event.getId());
+        eventRepository.delete(event);
 
         Gson gson = new Gson();
         ExchangeData send_data = new ExchangeData();

@@ -262,7 +262,6 @@ public class Process {
 
         try {
             String receive_json = socket_in.readLine();
-            System.out.println(receive_json);
             receive_data = gson.fromJson(receive_json, ExchangeData.class);
             String statusMessage = receive_data.getStatusMessage();
             if (statusMessage == null) {
@@ -368,7 +367,7 @@ public class Process {
         Timestamp finished_at = null;
         if(is_finished) {
             finished_at = Timestamp.valueOf(LocalDateTime.now());
-            event.setUpdated_at(finished_at);
+            event.setFinished_at(finished_at);
         }
 
         send_data.setEvent(event);

@@ -15,9 +15,12 @@ public class GetEvent {
 
         EventRepository repository = new EventRepository();
 
+        Event event = new Event();
+        event.setId(event_id);
+
         try {
-            Event event = repository.get(event_id);
-            System.out.println(event.toString());
+            Event res = repository.get(event);
+            System.out.println(res.toString());
         }  catch (EventNotFoundException e){
             System.out.println("null");
         }
